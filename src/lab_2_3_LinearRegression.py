@@ -93,10 +93,23 @@ class LinearRegressor:
                 predictions.append(self.intercept + self.coefficients * X[i])
         else:
             # Predict when X is more than one variable
-            predictions = []
+            X_bias = np.zeros((X.shape[0], X.shape[1] + 1))
+    
+            for i in range(X.shape[0]):
+                X_bias[i, 0] = 1  
+
+            print("kk")
+            
             for i in range(X.shape[0]):
                 for j in range(X.shape[1]):
-                    predictions.append(self.intercept + X @ self.coefficients)
+                    X_bias[i, j + 1] = X[i, j]
+
+            beta = np.zeros(len(self.coefficients) + 1)
+            beta[0] = self.intercept  
+            for i in range(len(self.coefficients)):
+                beta[i + 1] = self.coefficients[i]  
+            
+            predictions = X_bias @ beta
         return np.array(predictions)
 
 
