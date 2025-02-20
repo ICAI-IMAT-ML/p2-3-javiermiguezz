@@ -65,9 +65,7 @@ class LinearRegressor:
         # Train linear regression model with multiple coefficients
         x = np.c_[np.ones(X.shape[0]), X]
 
-        #w = np.linalg.inv(x.T @ x) @ x.T @ y
-
-        w = np.linalg.solve(x.T @ x, x.T @ y)
+        w = np.linalg.inv(x.T @ x) @ x.T @ y
 
         self.intercept = w[0]
         self.coefficients = w[1:]
@@ -97,26 +95,10 @@ class LinearRegressor:
             # Predict when X is more than one variable
             predictions = []
             for i in range(X.shape[0]):
-                predictions.append(self.intercept + np.sum(self.coefficients * X[i]))
-
-            # X_bias = np.zeros((X.shape[0], X.shape[1] + 1))
-    
-            # for i in range(X.shape[0]):
-            #     X_bias[i, 0] = 1  
-            
-            # for i in range(X.shape[0]):
-            #     for j in range(X.shape[1]):
-            #         X_bias[i, j + 1] = X[i, j]
-
-            # beta = np.zeros(len(self.coefficients) + 1)
-            # beta[0] = self.intercept  
-            # for i in range(len(self.coefficients)):
-            #     beta[i + 1] = self.coefficients[i]  
-            
-            # predictions = X_bias @ beta
+                predictions.append(self.intercept + np.sum(self.coefficients * X.iloc[i]))
 
         return np.array(predictions)
-
+    
 
 def evaluate_regression(y_true, y_pred):
     """
